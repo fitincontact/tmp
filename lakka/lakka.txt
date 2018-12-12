@@ -1,0 +1,119 @@
++1996-Nintendo - Nintendo 64: /tmp/cores/mupen64plus_libretro.so
++1990-Nintendo - Super Nintendo Entertainment System: /tmp/cores/snes9x2010_libretro.so
+--add-on for Nintendo Entertainment System:
++1986-Nintendo - Famicom Disk System: /tmp/cores/nestopia_libretro.so
++1983-Nintendo - Nintendo Entertainment System: /tmp/cores/nestopia_libretro.so
+
+**1998-Sega dreamcast
+--add-on for Mega Drive - Genesis:
+*****1996-Sega - 32X: /tmp/cores/picodrive_libretro.so
++1988-Sega - Mega Drive - Genesis: /tmp/cores/genesis_plus_gx_libretro.so
+-1985-Sega - Master System - Mark III: /tmp/cores/genesis_plus_gx_libretro.so
+-1983-Sega - SG-1000: /tmp/cores/genesis_plus_gx_libretro.so
+
++1993-Atari - Jaguar: /tmp/cores/virtualjaguar_libretro.so
++1986-Atari - 7800: /tmp/cores/prosystem_libretro.so
++1985-Atari - ST: /tmp/cores/hatari_libretro.so
++1977-Atari - 2600: /tmp/cores/stella_libretro.so
+
+games:
+*****Cave Story: /tmp/cores/nxengine_libretro.so
+
+1993-3DO Interactive Multiplayer
+
+
+
++1982-Coleco - ColecoVision: /tmp/cores/bluemsx_libretro.so
+
++FB Alpha - Arcade Games: /tmp/cores/fbalpha_libretro.so
+http://www.fbalpha.com/
+
++MAME: /tmp/cores/mame2003_libretro.so
+
++1984-NEC - PC-FX
+**1989-NEC - PC Engine SuperGrafx: /tmp/cores/mednafen_supergrafx_libretro.so
++1987-NEC - PC Engine - TurboGrafx 16: /tmp/cores/mednafen_pce_fast_libretro.so
+
++Sinclair - ZX Spectrum +3: /tmp/cores/fuse_libretro.so
+
+**ScummVM: /tmp/cores/scummvm_libretro.so
+
++1987-Sharp X68000
+---------------------------------------
+--portable:
+Nintendo - Game Boy Advance (e-Cards): /tmp/cores/mgba_libretro.so
+Nintendo - Game Boy Advance: /tmp/cores/mgba_libretro.so
+Nintendo - Game Boy Color: /tmp/cores/gambatte_libretro.so
+Nintendo - Game Boy: /tmp/cores/gambatte_libretro.so
+Nintendo - Nintendo DS Decrypted: /tmp/cores/desmume_libretro.so
+Nintendo - Nintendo DS (Download Play) (BETA): /tmp/cores/desmume_libretro.so
+Nintendo - Nintendo DSi Decrypted: /tmp/cores/desmume_libretro.so
+Nintendo - Nintendo DSi (DLC): /tmp/cores/desmume_libretro.so
+Nintendo - Virtual Boy: /tmp/cores/mednafen_vb_libretro.so
+--etc:
+1995-Nintendo - Satellaview: /tmp/cores/snes9x2010_libretro.so
+
+--portable:
+1990-Sega - Game Gear: /tmp/cores/genesis_plus_gx_libretro.so
+1993-Sega - PICO: /tmp/cores/picodrive_libretro.so
+
+--portable:
+Atari - Lynx: /tmp/cores/handy_libretro.so
+
+--portable:
+Bandai - WonderSwan Color: /tmp/cores/mednafen_wswan_libretro.so
+Bandai - WonderSwan: /tmp/cores/mednafen_wswan_libretro.so
+
+--portable:
+SNK - Neo Geo Pocket Color: /tmp/cores/mednafen_ngp_libretro.so
+SNK - Neo Geo Pocket: /tmp/cores/mednafen_ngp_libretro.so
+
+--portable:
+Sony - PlayStation Portable: /tmp/cores/ppsspp_libretro.so
+
+Sony - PlayStation: /tmp/cores/pcsx_rearmed_libretro.so
+
+GCE - Vectrex: /tmp/cores/vecx_libretro.so
+
+Lutro: /tmp/cores/lutro_libretro.so
+
+1983-Philips Videopac+ G7400
+
+Magnavox - /tmp/cores/Odyssey2: o2em_libretro.so
+1972-Magnavox Odyssey
+1978-Magnavox Odyssey2
+
+1985-Microsoft - MSX2: /tmp/cores/bluemsx_libretro.so
+1983-Microsoft - MSX: /tmp/cores/bluemsx_libretro.so
+
+1984-Mattel - Intellivision
+
+games:
+Quake1: /tmp/cores/tyrquake_libretro.so
+DOOM: /tmp/cores/prboom_libretro.so
+
+--------------------
+https://www.emu-land.net
+roms!
+--
+https://forums.libretro.com/t/cave-story-installation-in-lakka-micro-tutorial/6234
+https://docs.libretro.com/library/nxengine/
+--n64:
+f-zero x
+--delete play list
+https://forums.libretro.com/t/library-clean-up/3668
+http://www.lakka.tv/doc/Playlists/
+--fba insert coin
+https://forums.libretro.com/t/insert-coin-fba-core/4772
+right shift
+https://github.com/retropie/RetroPie-Setup/wiki/FAQ#why-cant-i-insert-coins-in-arcade-emulators
+--zx
+https://www.emu-land.net/forum/index.php?topic=70845.0
+tzx
+https://vtrd.in/pcutilz.php
+--Famicom Disk System
+https://forums.libretro.com/t/set-side-b-famicom-disk-system-and-nestopia/4513
+https://github.com/RetroPie/RetroPie-Setup/wiki/Famicom-Disk-System
+--cave story
+https://forums.libretro.com/t/cave-story-installation-in-lakka-micro-tutorial/6234
+--

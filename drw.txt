@@ -1,0 +1,14 @@
+https://central.github.com/deployments/desktop/desktop/latest/darwin
+https://desktop.github.com/
+
+https://forums.libretro.com/t/megathread-which-roms-work-with-lakka/5566
+
+https://jwt.io/
+https://docs.swift.org/swift-book/ReferenceManual/LexicalStructure.html
+https://eax.me/git-commands/
+
+
+
+
+
+https://wiki.scummvm.org/index.php/Where_to_get_the_games
