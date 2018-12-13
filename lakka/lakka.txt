@@ -116,4 +116,5 @@ https://forums.libretro.com/t/set-side-b-famicom-disk-system-and-nestopia/4513
 https://github.com/RetroPie/RetroPie-Setup/wiki/Famicom-Disk-System
 --cave story
 https://forums.libretro.com/t/cave-story-installation-in-lakka-micro-tutorial/6234
---
+--shader
+Open your retroarch.cfg file and search for "video_shader = “insertshaderhere” " and simply remove whatever is inside the parenthesis.
