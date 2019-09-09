@@ -1,0 +1,485 @@
+#include <iostream>
+#include <vector>
+//#include <string>
+#include <sstream>
+
+using namespace std;
+
+const int null = -1;
+
+void get_str(vector<string> &v);
+
+void gen_insert(vector<vector<vector<string> > > &general_v,
+		vector<string> &input_v);
+
+//--------------------------------------//
+
+void print_str_vec(vector<string> &v);
+
+int str_to_int(string &s);
+int char_to_int2(char &c);
+int char_to_int(char & c);
+
+void slice_insert(vector<vector<int> > &slice, int index, int id);
+void order(vector<vector<int> > &slice, vector<vector<int> > &memorder,
+		int &end_flag);
+
+//---------------------------------------//
+void print_slice(vector<vector<int> > & slice);
+void grid_sort(vector<vector<vector<string> > > &general_v, int loop, int mod,
+		vector<string> &result);
+void print_vec_str(vector<string> &v);
+
+void print_vec(vector<int> &v);
+
+void resize_insert(vector<vector<vector<int> > > &v, int d3_position,
+		int d2_value, int d1_id);
+
+void print_letter(vector<string> &v);
+
+void str_cin();
+
+void cin_ins(vector<vector<vector<int> > > &rg);
+
+int main() {
+	//save input
+	vector<string> input;
+	get_str(input);
+	//print_str_vec(input);//for debuging
+
+	//insert into general greed
+	//greed sort
+	vector<vector<vector<string> > > gen_greed; //(1, vector<vector<string> >(nine, vector<string>(1)));
+	gen_insert(gen_greed, input);
+	vector<string> result;
+	grid_sort(gen_greed, 2, 2, result);
+	//cout result//
+	print_str_vec(result);
+	//cout << "END!" << endl;
+	return 0;
+}
+
+void get_str(vector<string> &v) {
+	string s;
+	while (getline(cin, s)) {
+		if (s.empty()) {
+			break;
+		}
+		v.push_back(s);
+	}
+}
+
+int str_to_int(string &s) {
+	int Result;
+	stringstream convert(s);
+	if (!(convert >> Result))
+		Result = 0;
+
+	return Result;
+}
+
+int char_to_int2(char &c) {
+	if (c == '0') {
+		return 0;
+	}
+	if (c == '1') {
+		return 1;
+	}
+	if (c == '2') {
+		return 2;
+	}
+	if (c == '3') {
+		return 3;
+	}
+	if (c == '4') {
+		return 4;
+	}
+	if (c == '5') {
+		return 5;
+	}
+	if (c == '6') {
+		return 6;
+	}
+	if (c == '7') {
+		return 7;
+	}
+	if (c == '8') {
+		return 8;
+	}
+	if (c == '9') {
+		return 9;
+	}
+	return 0;
+}
+
+void print_vec(vector<int> &v) {
+	for (unsigned int i = 0; i < v.size(); ++i)
+		cout << v[i] << endl;
+}
+
+void print_str_vec(vector<string> &v) {
+	for (unsigned int i = 0; i < v.size(); ++i)
+		cout << v[i] << endl;
+}
+
+void resize_insert(vector<vector<vector<int> > > &v, int d3_position,
+		int d2_value, int d1_id) {
+	d3_position++;
+	d2_value++;
+	v.resize(d3_position, vector<vector<int> >(d2_value, vector<int>(1)));
+	v[d3_position][d2_value][0]++;
+}
+
+void print_letter(vector<string> &v) {
+	string s;
+	for (unsigned int i = 0; i < v.size(); ++i) {
+		s = v[i];
+		for (unsigned int k = 0; k < s.size(); k++) {
+			cout << "k:" << s[k] << endl;
+		}
+	}
+}
+
+void print_vec_str(vector<string> &v) {
+
+	int Result;
+
+	string s;
+	string o;
+	for (unsigned int i = 0; i < v.size(); ++i) {
+		s = v[i];
+		for (unsigned int k = 0; k < s.size(); k++) {
+			o = s[k];
+			stringstream convert(o);
+			if (!(convert >> Result))
+				Result = 0;
+			cout << "Result:" << Result << endl;
+		}
+	}
+}
+
+void str_cin() {
+	string s;
+
+	while (getline(cin, s)) {
+		if (s.empty())
+			break;
+		cout << s << endl;
+
+//return input;
+	}
+}
+
+void cin_ins(vector<vector<vector<int> > > &rg) {
+	string s;
+	string o;
+	int Result;
+
+	//cin//
+	while (getline(cin, s)) {
+		if (s.empty()) {
+			break;
+		}
+//convert//
+		for (unsigned int k = 0; k < s.size(); k++) {
+			o = s[k];
+			stringstream convert(o);
+			if (!(convert >> Result))
+				Result = 0;
+			//cout <<"Result:"<< Result << endl;
+		}
+	}
+}
+
+void grid_sort(vector<vector<vector<string> > > &general_v, int loop, int mod,
+		vector<string> &result) {
+	/*
+	 general_v[d1][d2][d3][s]
+	 [d1] - constant number of position
+	 [d2] - constant value of first position (number of basket)
+	 [d3] - constant sequence number of digit in basket (vector)
+	 [s]  - index of string (every digit presents by string type)
+
+	 example:
+	 981: general_v[d1][d2][d3][2]:3;9;1;1.
+	 999: general_v[d1][d2][d3][2]:3;9;2;9.
+
+	 in detail:
+	 3;9;1;1:
+	 d1 - '981' has three character ('9','8' and '1') => d1=3;
+	 d2 - first character of '981' is '9'             => d2=9;
+	 d3 - '981' is first in input                     => d3=1;
+	 [s] - is index of string '981'                   => [0]='9',[1]='8',[2]='1';
+	 */
+	//cout << "---start grid_sort---" << endl;
+	int d1 = general_v.size() - 1;
+	//cout<<"general_v.size():"<<general_v.size()<<endl;
+	//cout<<"d1:"<<d1<<endl;
+	int index = null;
+	int cnt = 1;
+	if (d1 == 0) {
+		return;
+	};
+	int d2 = 0;
+	int d3 = 0;
+	for (; d1 > 0; d1--) {/////////////////////////////////////////////////////////
+		d2 = general_v[d1].size() - 1;
+		int end_flag = null;
+		for (; d2 >= 0; d2--) {
+			d3 = general_v[d1][d2].size() - 1;
+			if (loop == 1) {
+				for (; d3 >= 0; d3--) {
+					if (mod == 1) {
+						int d1_slc = 1;
+						for (; d1_slc < d1; d1_slc++) {
+							cout << general_v[d1][d2][d3][d1_slc];
+							if (d1_slc == d1 - 1) {
+								cout << "." << endl;
+							} else {
+								cout << "; ";
+							};
+						}
+					} else if (mod == 2) {
+						cout << "count:" << cnt << " - d1:" << d1 << "; d2:"
+								<< d2 << "; d3:" << d3 << "; str:"
+								<< general_v[d1][d2][d3][0] << endl;
+					} else {
+						cout << "count:" << cnt << " - d1:" << d1 << "; d2:"
+								<< d2 << "; d3:" << d3 << "; str:"
+								<< general_v[d1][d2][d3] << endl;
+					};
+					cnt++;
+				}
+			} else if (loop == 2) {
+				//cout << "loop = 2" << endl;
+				int id;
+				int d1_slc = 1;
+				vector<vector<int> > memorder;
+				vector<int> v(1, null);
+				vector<int> v2;
+				for (; d1_slc < d1; d1_slc++) {
+					//cout << "--loop--2" << endl;
+					if (general_v[d1][d2].size() == 0) {
+						continue;
+					}
+					//cout << "--loop--3" << endl;
+					//0...n1,n2...1 where 0 is start; n1,n2... are middle; 1 is end  of slice
+					end_flag--;
+					if (end_flag == null - 1) {
+						end_flag = 0;
+						//cout << "--loop--4" << endl;
+					} else if (end_flag != 0) {
+						end_flag = d1 - d1_slc;
+						//cout << "--loop--5" << endl;
+					}
+					//cout << "--0_0_0--; end_flag:" << end_flag << endl;
+					id = d3;
+					vector<vector<int> > slice;
+					//vector<int> order(general_v[d1][d2].size(), null);
+					//vector<vector<int> > mult;
+					for (; id >= 0; id--) {
+						//cout << "--1_0--" << "end_flag:" << end_flag << endl;
+						index = char_to_int(general_v[d1][d2][id][d1_slc]);
+						if (end_flag == 0) {
+							//cout << "--1_0_0--" << "; d1:" << d1 << endl;
+							slice_insert(slice, index, id);
+						} else {
+							//cout << "--1_1:--" << "d2:" << d2 << "--"<< "; memorder.size()=" << memorder.size()	<< endl;
+							for (int m1 = memorder.size() - 1; m1 >= 0; m1--) {
+								//cout << "--1_2--" << "d2:" << d2 << "--"<< "memorder[" << m1 << "].size():"	<< memorder[m1].size() << endl;
+								int m2 = memorder[m1].size() - 1;
+								if (m2 <= 0) {
+									continue;
+								}
+								//cout << "--1_3--" << endl;
+								for (; m2 >= 0; m2--) {
+									//cout << "--1_4--" << "id:" << id << "--"<< "memorder[" << m1 << "][" << m2	<< "]:" << memorder[m1][m2] << endl;
+									if (id == memorder[m1][m2]) {
+										//cout << "--1_5_0--m1:" << m1 << "; m2:"<< m2 << "; index:" << index	<< "; id:" << id << endl;
+										slice_insert(slice, index, id);
+										//print_slice(slice);
+										//cout << "--1_5_1--m2:" << m2 << endl;
+									}
+									//cout << "--1_6--" << endl;
+									//cout << "--1_7--" << endl;
+								}
+								//cout << "--1_8--" << endl;
+							}
+							//cout << "--1_9--" << endl;
+						}
+						//cout << "--1_10--" << endl;
+					}
+					//cout <<"new slice"<<endl;
+					//cout <<"0. d1:"<<d1<<"; d2:"<<d2<<"; d3_slc:"<<d3_slc<<"; d1_slc:"<<d1_slc<< endl;
+					//cout <<"end_flag1:"<<end_flag<<endl;
+					//cout <<"end_flag2:"<<d1 - d1_slc<<endl;
+					//cout <<"end_flag2:"<<end_flag<<endl;
+					//cout << "--2_1_1:--" << "end_flag:" << end_flag							<< "; memorder.size():" << memorder.size() << endl;
+					//cout << "--2_1_2 --print slice" << endl;
+					//print_slice(slice);
+					//cout << "--2_1_3 --print memorder before" << endl;
+					//print_slice(memorder);
+					order(slice, memorder, end_flag);
+					//cout << "--2_1_4 --print memorder after" << endl;
+					//print_slice(memorder);
+					//cout << "--2_2_0:--" << "end_flag:" << end_flag							<< "; memorder.size():" << memorder.size() << endl							<< endl;
+					//print result
+					if (d1 < 3) {
+						end_flag = 1;
+					}
+					if (end_flag == 1) {
+						for (int i1 = memorder.size() - 2; i1 >= 0; i1--) {
+							for (int i2 = memorder[i1].size() - 1; i2 >= 0;
+									i2--) {
+								for (int d3 = general_v[d1][d2].size() - 1;
+										d3 >= 0; d3--) {
+									if (memorder[i1][i2] == d3) {
+										//cout << general_v[d1][d2][d3] << endl;
+										result.push_back(general_v[d1][d2][d3]);
+									}
+								}
+							}
+						}
+					}
+				}
+				//cout << "1. d1:" << d1 << "; d2:" << d2 << d1_slc << endl;
+			}
+			//cout << "2. d1:" << d1 << "; d2:" << d2 << endl;
+		}
+		//cout << "3." << endl;
+		if (d1 == 1) {
+			for (int g2 = general_v[1].size() - 1; g2 >= 0; g2--) {
+				for (int g3 = general_v[1][g2].size() - 1; g3 >= 0; g3--) {
+					result.push_back(general_v[1][g2][g3]);
+				}
+			}
+		}
+	}
+	cout << "---end grid_sort---" << endl;
+}
+
+void gen_insert(vector<vector<vector<string> > > &general_v,
+		vector<string> &input_v) {
+	//cout << "---start gen_insert---" << endl;
+	string s;
+
+//cout<<"start general_v.size():"<<general_v.size()<<endl;
+	for (unsigned int i = 0; i < input_v.size(); i++) {
+		s = input_v[i];
+		//cout <<"input_v[i]:"<<input_v[i]<<endl;
+
+		//d1
+		int d1_new = s.size();              //number of position - string.size()
+		//cout <<"d1_new:"<<d1_new<<endl;
+		int d1_old = general_v.size(); //-1 because vector index starts 0 but index 0 unavaible for d1
+		//cout <<"d1_old:"<<d1_old<<endl;
+		if (d1_old <= d1_new) {
+			//cout <<"if d1"<<endl;
+			vector<vector<string> > vec_d1;
+			for (int i1 = d1_old; i1 <= d1_new; i1++) {
+				//cout<<"before general_v.size():"<<general_v.size()<<endl;
+				general_v.push_back(vec_d1);
+				//cout<<"push d1 "<<i1<<"; ";
+				//cout<<"after general_v.size():"<<general_v.size()<<endl;
+			}
+			//cout<<"end general_v.size():"<<general_v.size()<<endl;
+			//cout << "--end d1--" << endl;
+		}
+
+		//d2
+		string s_first;
+		//s_first.push_back(s[0]);
+		//cout <<"s_first:"<<s_first<<endl;
+		//int d2_new = str_to_int(s_first);  //value of first position = string[0]
+		//cout <<"d2_new str_to_int(s_first):"<<d2_new<<endl;
+		int d2_new = char_to_int(s[0]);  //value of first position = string[0]
+		int d2_old = general_v[d1_new].size();
+		//cout <<"d2_old general_v[d1_new].size():"<<d2_old<<endl;
+		if (d2_old <= d2_new) {
+			//cout <<"if d2"<<endl;
+			vector<string> vec_d2;
+			for (int i2 = d2_old; i2 <= d2_new; i2++) {
+				general_v[d1_new].push_back(vec_d2);
+				//cout<<"push d2 "<<i2<<"; ";
+			}
+			//cout << endl <<"--end d2--" << endl;
+		}
+
+		//d3
+		general_v[d1_new][d2_new].push_back(s);
+		//cout << "--end d3--" << endl;
+	}
+	//cout<<"general_v.size():"<<general_v.size()<<endl;
+	//cout << "---end gen_insert---" << endl;
+}
+
+void slice_insert(vector<vector<int> > &slice, int index, int id) {
+	//cout <<"index:"<<index<<"; slice.size():"<<slice.size()<< endl;
+	for (int i = index - slice.size() + 1; i > 0; i--) {
+		//cout <<"i:"<<i<<endl;
+		vector<int> v;
+		slice.push_back(v);
+	}
+	slice[index].push_back(id);
+	//cout <<"slice.size():"<<slice.size()<<"; slice["<<index<<"].size():"<<slice[index].size()<< endl;
+}
+
+int char_to_int(char & c) {
+	int i;
+	i = c - '0';
+	return i;
+}
+
+void print_slice(vector<vector<int> > & slice) {
+	cout << "---start print_slice---" << endl;
+	for (int i1 = slice.size() - 1; i1 >= 0; i1--) {
+		if (slice[i1].size() == 0) {
+			continue;
+		}
+		for (int i2 = slice[i1].size() - 1; i2 >= 0; i2--) {
+			cout << "slice[" << i1 << "][" << i2 << "]=" << slice[i1][i2]
+					<< endl;
+		}
+	}
+	cout << "---end print_slice---" << endl;
+}
+
+void order(vector<vector<int> > &slice, vector<vector<int> > &memorder,
+		int &end_flag) {
+	if (end_flag == 0) {
+		//initialise
+		memorder = slice;
+		vector<int> v(1, null);
+		memorder.push_back(v);	// for .insert before
+		//print_slice(memorder);
+		//if first slice has only one not-empty it means - you do not need to continue. set end_flag to 1 and print result.
+	} else {
+		//producing
+		vector<int> v2;
+		for (int m1 = memorder.size() - 1; m1 >= 0; m1--) {
+			//cout << "--order 1_1:" << "" << endl;
+			if (memorder[m1].size() - 1 <= 0) {
+				continue;
+			}
+			for (int s1 = slice.size() - 1; s1 >= 0; s1--) {
+				//cout << "--order 1_2:" << "; slice[" << s1 << "]" << endl;
+				memorder.insert(memorder.begin() + m1 + 1, v2);
+				for (int s2 = slice[s1].size() - 1; s2 >= 0; s2--) {
+					//cout << "--order 1_3:" << "; slice[" << s1 << "][" << s2<< "]=" << slice[s1][s2] << endl;
+					for (int m2 = memorder[m1].size() - 1; m2 >= 0; m2--) {
+						//cout << "--order 1_4:" << " memorder[" << m1 << "][" << m2 << "]=" << memorder[m1][m2] << "; slice["<< s1 << "][" << s2 << "]=" << slice[s1][s2]<< endl;
+						if (memorder[m1][m2] == slice[s1][s2]) {
+							//cout << "--order 1_5:" << "memorder[" << m1 << " + 1].push_back(slice[" << s1 << "][" << s2 << "])" << endl;
+							memorder[m1 + 1].push_back(slice[s1][s2]);
+							memorder[m1].erase(memorder[m1].begin() + m2);
+						}
+					}
+				}
+				if (memorder[m1 + 1].size() == 0) {
+					memorder.erase(memorder.begin() + m1 + 1);
+				}
+			}
+		}
+	}
+	//if memorder has baskets with size == 1 only, it means - you do not need to continue. set end_flag to 1 and print result.
+}
